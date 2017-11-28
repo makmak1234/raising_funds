@@ -20,7 +20,7 @@ class CreateInvestsTable extends Migration
             $table->foreign('investors_id')
               ->references('id')->on('investors')
               ->onDelete('cascade')->onEdit('cascade');
-            $table->dateTime('term');
+            $table->date('term');
             $table->enum('accept', ['0', '1', '2']);
             $table->timestamps();
         });

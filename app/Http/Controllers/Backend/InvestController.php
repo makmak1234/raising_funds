@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Investors;
+use App\Invest;
+use Carbon\Carbon;
 
 class InvestController extends Controller
 {
@@ -126,8 +128,9 @@ class InvestController extends Controller
     {
         $investor = Investors::find($id);
         $investor->delete();
-        $investor = Investors::get();
-        return view('backend.users', ["investors" => $investors]);
+        // $investor = Investors::get();
+        return redirect()->route('dash_investors');
+        // return view('backend.users', ["investors" => $investors]);
     }
 
     public function showInvest($id)
@@ -146,7 +149,7 @@ class InvestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function updateInvest($id, $accept)
+    public function updateSolve($id, $accept)
     {
         DB::table('invests')
             ->where('id', $id)
@@ -154,8 +157,90 @@ class InvestController extends Controller
                 'accept' => $accept,
             ]);
 
-        $id_investor = Invests::find($id)->investors->id;
+        $id_investor = Invest::find($id)->investors->id;
 
         return redirect()->route('dash_show_invests', [$id_investor]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeInvest(Request $request)
+    {   
+        if (isset($request->id)) {
+            $this->validate($request, [
+                'amount' => 'required|numeric|max:1000000000|min:1',
+                'term' => 'required|date|after:tomorrow',
+            ]);
+
+            DB::table('invests')
+                ->where('id', $request->id)
+                ->update(['amount' => $request['amount'],
+                    'term' => $request['term'],
+                    'accept' => $request['accept'],
+                ]);
+        }else{
+            $this->validate($request, [
+                'amount' => 'required|numeric|max:1000000000|min:1',
+                'term' => 'required|date|after:tomorrow',
+            ]);
+
+            Invest::create([
+                'amount' => $request['amount'],
+                'term' => $request['term'],
+                'investors_id' => $request['id_investor'],
+                'accept' => $request['accept'],
+            ]);
+        }
+
+        // $id_investor = Invest::find($request->id)->investors->id;
+
+        return redirect()->route('dash_show_invests', [$request->id_investor]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateInvest($id)
+    {
+        $investor = Invest::find($id)->investors;
+        $invest = Invest::find($id);
+        $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+        $date_now = Carbon::tomorrow()->toDateString();
+        return view('backend.update_invest', ["invest" => $invest, "investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteInvest($id)
+    {
+        $id_investor = Invest::find($id)->investors->id;
+        $invest = Invest::find($id);
+        $invest->delete();
+
+        return redirect()->route('dash_show_invests', [$id_investor]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function addInvest($id)
+    {
+        $investor = Investors::find($id);
+        $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+        $date_now = Carbon::tomorrow()->toDateString();
+//  $myecho = $date_now;
+// `echo "date_now: " . $myecho >>/tmp/qaz`; 
+
+        return view('backend.add_invest', ["investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
     }
 }
