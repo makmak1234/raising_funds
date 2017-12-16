@@ -1,0 +1,101 @@
+<?php
+    // ini_set('display_errors', 1);
+    require __DIR__.'/../MyFunction/sms.php';
+    require __DIR__.'/../MyFunction/functions_email.php';
+    // include "function/functions_email.php";
+    $db = mysql_connect ("localhost", "root", "8585");//("localhost","wizardgrp_divd","mqPLEuceCS");
+    mysql_select_db ("raising_funds",$db);
+    
+    $request =  $argv[1];
+
+$myecho = json_encode($request);
+`echo " request: $myecho    " >>/tmp/qaz`;
+
+    $investors = mysql_query("SELECT 'name', 'email', 'phone' FROM `investors`");
+
+    $sms = new Transport();
+
+    while ($investor = mysql_fetch_array($investors)) {
+        if(isset($request['send_email']) && $request['send_email']){
+            $text_send = $text_email;
+            $name = $investor['name'];
+            $email = $investor['email'];
+            eval("\$text_send = \"$text_send\";");
+            // $ok = Mail::to($email)->send(new OrderShipped($text_send));
+            send_email($email,  mb_substr($text_send, 0, 40), $text_send, 'money@bazabd.xyz', 'Милитарихолдинг');
+            sleep(5);
+        }
+
+        if(isset($request['send_sms']) && $request['send_sms']){
+            $text_send = $text_email;
+            $name = $investor['name'];
+            $phone = $investor['phone'];
+            eval("\$text_send = \"$text_send\";");
+            // $ok = $sms->send(array("text" => $text_send), array(substr($phone, 1)));
+            sleep(5);  
+        }
+// $myecho = json_encode($ok);
+// `echo " ok_email: $myecho    " >>/tmp/qaz`;
+    }   
+
+    public function EmailSendAction($investors, $text_email){
+        while ($investor = mysql_fetch_array($investors)) {
+            $text_send = $text_email;
+            $name = $investor['name'];
+            $email = $investor['email'];
+            eval("\$text_send = \"$text_send\";");
+            // $ok = Mail::to($email)->send(new OrderShipped($text_send));
+            send_email($email,  mb_substr($text_send, 0, 40), $text_send, 'money@bazabd.xyz', 'Милитарихолдинг');
+            sleep(5);
+
+            $text_send = $text_email;
+            $name = $investor['name'];
+            $phone = $investor['phone'];
+            eval("\$text_send = \"$text_send\";");
+            $ok = $sms->send(array("text" => $text_send), array(substr($phone, 1)));
+            sleep(5);
+
+// $myecho = json_encode($ok);
+// `echo " ok_email: $myecho    " >>/tmp/qaz`;
+        }   
+        
+        return;
+    }
+    
+    public function SmsSendAction($investors, $text_sms, $sms){
+        // $sms = new Transport();
+        while ($investor = mysql_fetch_array($investors)) {
+            $text_send = $text_email;
+            $name = $investor['name'];
+            $phone = $investor['phone'];
+            eval("\$text_send = \"$text_send\";");
+            $ok = $sms->send(array("text" => $text_send), array(substr($phone, 1)));
+            sleep(5);
+
+// $myecho = json_encode($ok);
+// `echo " ok_sms: $myecho    " >>/tmp/qaz`;
+
+        }   
+        
+        return;
+    }
+
+    function clear_fone($person_phone){
+        $phone = str_replace(" ", "", $person_phone);
+        $tmpphone = str_replace("+", "", $phone);
+        $tmpphone = mb_substr($tmpphone, -11);
+        if(strlen($tmpphone) == 10 or strlen($tmpphone) == 11){
+            if(strlen($tmpphone) == 11){
+                $phone = substr_replace($tmpphone, "7", 0, 1); //
+            }
+            else{
+                $phone = "7" . $tmpphone;
+            }
+        }else $phone = false;
+
+        return $phone;
+    }
+
+?>
+
+<!-- <a href="home.php" type="button"><button>Назад</button></a> -->

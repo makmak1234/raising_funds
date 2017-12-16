@@ -72,7 +72,7 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
+                        {{-- <a href="{{ url('/register') }}">Register</a> --}}
                     @endif
                 </div>
             @endif
@@ -81,7 +81,9 @@
                 <div class="title m-b-md">
                     Raising_Funds
                 </div>
-
+                <div class=" m-b-md">
+                    <h2><a href="/private/auth_investor">Привлечение инвестиций</a></h2>
+                </div>
                 
             </div>
         </div>

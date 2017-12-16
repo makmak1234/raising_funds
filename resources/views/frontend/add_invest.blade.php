@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_front')
 
 @section('content')
 <div class="container">
@@ -78,18 +78,18 @@
 
                             <div class="col-md-6">
                                 @php
-                                    $inf_cls0 = "";
-                                    $inf_cls1 = "";
-                                    $inf_cls2 = "";
+                                    $inf_cls0 = "disabled";
+                                    $inf_cls1 = "disabled";
+                                    $inf_cls2 = "selected";
                                     // $myecho = old('accept');
                                     // `echo "old('accept'): " . $myecho >>/tmp/qaz`; 
-                                    if (old('accept') == '0'){
-                                        $inf_cls0 = "selected";
-                                    }elseif(old('accept') == '1'){
-                                        $inf_cls1 = "selected";
-                                    }elseif(old('accept') == '2'){
-                                        $inf_cls2 = "selected";
-                                    }
+                                    // if (old('accept') == '0'){
+                                    //     $inf_cls0 = "disable";
+                                    // }elseif(old('accept') == '1'){
+                                    //     $inf_cls1 = "disable";
+                                    // }elseif(old('accept') == '2'){
+                                    //     $inf_cls2 = "selected";
+                                    // }
                                 @endphp
                                 <!-- Single button -->
                                 <div class="btn-group">
@@ -104,6 +104,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <input type="hidden" name="front" value="true" >
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

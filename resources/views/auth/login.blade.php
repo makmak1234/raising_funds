@@ -25,6 +25,20 @@
                             </div>
                         </div>
 
+                        {{-- <div class="form-group{{ $errors->has('login') ? ' has-error' : '' }}">
+                            <label for="login" class="col-md-4 control-label">login</label>
+
+                            <div class="col-md-6">
+                                <input id="login" type="login" class="form-control" name="login" value="{{ old('login') }}" required autofocus>
+
+                                @if ($errors->has('login'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('login') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+ --}}
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 

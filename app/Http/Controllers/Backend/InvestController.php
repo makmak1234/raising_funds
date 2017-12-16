@@ -96,16 +96,31 @@ class InvestController extends Controller
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
-            Investors::create([
-            'name' => $request['name'],
-            'yan_money' => $request['yan_money'],
-            'phone' => $request['phone'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-        ]);
+            $investor = Investors::create([
+                'name' => $request['name'],
+                'yan_money' => $request['yan_money'],
+                'phone' => $request['phone'],
+                'email' => $request['email'],
+                'password' => bcrypt($request['password']),
+            ]);
+
+            // $investor = new Investors;
+            // $investor->name = $request['name'];
+            // $investor->yan_money = $request['yan_money'];
+            // $investor->phone = $request['phone'];
+            // $investor->email = $request['email'];
+            // $investor->password = bcrypt($request['password']);
+            // $investor->save();
         }
 
-        return redirect()->route('dash_investors');
+        //  $myecho = $request['front'];
+        // `echo " front:  $myecho  " >>/tmp/qaz`;
+
+        if ($request['front'] == 'true') {
+            return redirect()->route('front_show_investor', ['id' => $investor->id]);           
+        }else{
+            return redirect()->route('dash_investors');
+        }
     }
 
     /**
@@ -197,7 +212,11 @@ class InvestController extends Controller
 
         // $id_investor = Invest::find($request->id)->investors->id;
 
-        return redirect()->route('dash_show_invests', [$request->id_investor]);
+        if ($request['front'] == 'true') {
+            return redirect()->route('front_show_investor', ['id' => $request->id_investor]);           
+        }else{
+            return redirect()->route('dash_show_invests', [$request->id_investor]);
+        }
     }
 
     /**

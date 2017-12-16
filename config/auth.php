@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'investors' => [
+            'driver' => 'session',
+            'provider' => 'investor',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -68,6 +73,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'investor' => [
+            'driver' => 'eloquent',
+            'model' => App\Investors::class,
+            // 'table' => 'investors',
         ],
 
         // 'users' => [
