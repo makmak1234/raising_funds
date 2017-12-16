@@ -12,6 +12,7 @@ use App\Text;
 use App\Http\Controllers\Bot\BotEmailSmsController;
 use Carbon\Carbon;
 use App\Jobs\BotEmailSms;
+use App\Jobs\BotEmailSms_test;
 
 class InvatesController extends Controller
 {
@@ -85,14 +86,14 @@ class InvatesController extends Controller
 // $myecho = json_encode($request->only('text_email', 'text_sms', 'send_email', 'send_sms'));
 // `echo " request_invates: $myecho    " >>/tmp/qaz`;
 
-        // dispatch(new BotEmailSms($request->only('text_email', 'text_sms', 'send_email', 'send_sms')));
+        dispatch(new BotEmailSms($request->only('text_email', 'text_sms', 'send_email', 'send_sms')));
         $investors = Investors::select('name', 'email', 'phone')->get();
         if($request->send_email){
             Text::updateOrCreate(
                 ['type' => 'text_email'],
                 ['order_text' => $request->text_email]
             );
-            $this->botEmailSms->EmailSendAction($investors, $request->text_email);
+            // $this->botEmailSms->EmailSendAction($investors, $request->text_email);
             $message .= "email "; 
         }
         if($request->send_sms){
@@ -100,7 +101,7 @@ class InvatesController extends Controller
                 ['type' => 'text_sms'],
                 ['order_text' => $request->text_sms]
             );
-            $this->botEmailSms->SmsSendAction($investors, $request->text_sms);
+            // $this->botEmailSms->SmsSendAction($investors, $request->text_sms);
             $message .= "sms ";  
         }
 

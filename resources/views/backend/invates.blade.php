@@ -28,7 +28,7 @@
 
 @if (isset($message) && $message != null)
   <script type="text/javascript">
-    message = "{{$message}}" + " будут отправлены в течении нескольких минут"
+    message = "{{$message}}" + " отправлены";//" будут отправлены в течении нескольких минут"
     alert(message);
   </script>
 @endif
