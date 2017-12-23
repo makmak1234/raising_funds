@@ -58,7 +58,7 @@ class BotEmailSms implements ShouldQueue
                 ['type' => 'text_sms'],
                 ['order_text' => $request['text_sms']]
             );
-            $this->SmsSendAction($investors, $request->text_sms, $sms);  
+            $this->SmsSendAction($investors, $request['text_sms'], $sms);  
         }
         return;
     }
@@ -70,11 +70,11 @@ class BotEmailSms implements ShouldQueue
             $name = $investor->name;
             $email = $investor->email;
             eval("\$text_send = \"$text_send\";");
-            // $ok = Mail::to($email)->send(new OrderShipped($text_send));
-            sleep(5);
+            $ok = Mail::to($email)->send(new OrderShipped($text_send));
+            // sleep(5);
 
 // $myecho = json_encode($ok);
-// `echo " ok_email: $myecho    " >>/tmp/qaz`;
+// `echo " ok: $myecho    " >>/tmp/qaz`;
         }   
         
         return;
@@ -82,12 +82,12 @@ class BotEmailSms implements ShouldQueue
     
     public function SmsSendAction($investors, $text_sms, $sms){
         foreach ($investors as $investor) {
-            $text_send = $text_email;
+            $text_send = $text_sms;
             $name = $investor->name;
             $phone = $investor->phone;
             eval("\$text_send = \"$text_send\";");
             $ok = $sms->send(array("text" => $text_send), array(substr($phone, 1)));
-            sleep(5);
+            // sleep(5);
 
 // $myecho = json_encode($ok);
 // `echo " ok_sms: $myecho    " >>/tmp/qaz`;

@@ -15,7 +15,7 @@
                     @endif
                     <a href="{{route('dash_users')}}" class="btn btn-primary">Пользователи админпанели</a>
                     <a href="{{ route('dash_investors') }}" class="btn btn-primary" role="button">Редактировать инвесторов</a> 
-                    <a href="{{ route('dash_invates') }}" class="btn btn-primary" role="button">Рассылка приглашений</a> 
+                    <a href="{{ route('dash_invates') }}" class="btn btn-primary" role="button">Рассылка приглашений</a>  
                 </div>
             </div>
         </div>

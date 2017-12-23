@@ -56,6 +56,7 @@ class InvestorsController extends Controller
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
             return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept]);
+            // return redirect()->route('front_show_investor', ["id" => $investor->id]);
         }
         else{
             $message = "Телефон или пароль неверен";
@@ -72,7 +73,13 @@ class InvestorsController extends Controller
     {
         $investor = Investors::find($id);
 
-        Auth::guard('investors')->login($investor);
+        $investor_check = Auth::guard('investors')->user();
+
+        if ($id != $investor_check->id) {
+            return redirect()->route("priv_auth_investor");
+        }        
+
+        // Auth::guard('investors')->login($investor);
 
         $invests = $investor->invests;
 
@@ -89,6 +96,12 @@ class InvestorsController extends Controller
     public function addInvest($id)
     {
         $investor = Investors::find($id);
+        $investor_check = Auth::guard('investors')->user();
+
+        if ($id != $investor_check->id) {
+            return redirect()->route("priv_auth_investor");
+        } 
+               
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
         $date_now = Carbon::tomorrow()->toDateString();
 

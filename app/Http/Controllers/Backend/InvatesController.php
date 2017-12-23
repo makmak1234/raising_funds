@@ -110,6 +110,23 @@ class InvatesController extends Controller
 
         return redirect()->route('dash_invates', ["message" => $message]);
     }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function emailView(Request $request)
+    {
+        $investors = Investors::select('name', 'email', 'phone')->first();
+        $text_email = Text::where('type', 'text_email')->get();
+        $text_send = $text_email[0]->order_text;
+        $name = $investors->name;
+        $email = $investors->email;
+        eval("\$text_send = \"$text_send\";");
+
+        return view('mail.emailAdmin',  ["name" => $text_send]);
+    }
     
 
 }

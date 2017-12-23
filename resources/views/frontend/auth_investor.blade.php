@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Raising_Funds</title>
+        <title>Привлечение инвестиций</title>
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -20,11 +20,11 @@
                 <div class="top-center links">
                     <div class="content">
                         <div class="center-block m-b-md">
-                            <h1 class="text-center">Raising_Funds</h1>
+                            <h1 class="text-center">Привлечение инвестиций</h1>
                         </div>
-                        <div class="center-block m-b-md">
+                        {{-- <div class="center-block m-b-md">
                             <h2 class="text-center">Привлечение инвестиций</h2>
-                        </div>
+                        </div> --}}
                         
                     </div>
                 </div>
@@ -34,7 +34,7 @@
           <div class="row ">
               <div class="col-md-4"></div>
               <div class="col-md-4">
-                <h3 class="form-signin-heading text-center">Авторизация</h3>
+                <h3 class="form-signin-heading text-center">Авторизация инвестора</h3>
                 <div class="panel panel-default">
                     <form class="form-signin" action="/private/check_investor" method="post">
                       {{ csrf_field() }}

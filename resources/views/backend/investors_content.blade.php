@@ -44,11 +44,11 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>name</th>
-                            <th>yan_money</th>
-                            <th>phone</th>
+                            <th>Имя</th>
+                            <th>Яндекс кошелек</th>
+                            <th>Телефон</th>
                             <th>email</th>
-                            <th>created_at</th>
+                            <th>Создан</th>
                             <th>Кло-во инвестиций</th>
                             <th>Сумма инвестиций</th>
                             <th></th>

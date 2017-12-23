@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Raising_Funds</title>
+    <title>Привлечение инвестиций</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -43,7 +43,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('login') }}">Админ</a></li>
                             {{-- <li><a href="{{ route('register') }}">Register</a></li> --}}
                         @else
                             <li class="dropdown">

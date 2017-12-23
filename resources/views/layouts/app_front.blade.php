@@ -28,8 +28,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">
-                        Личный кабинет
+                    <a class="navbar-brand" href="{{ route('priv_check_investor') }}">
+                        Личный кабинет инвестора
                     </a>
                 </div>
 

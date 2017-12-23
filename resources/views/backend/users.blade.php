@@ -46,11 +46,11 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>name</th>
-                            <th>login</th>
-                            <th>phone</th>
+                            <th>Имя Фамилия</th>
+                            <th>Логин</th>
+                            <th>Телефон</th>
                             <th>email</th>
-                            <th>created_at</th>
+                            <th>Добавлен</th>
                             <th></th>
                             <th></th>
                         </tr>

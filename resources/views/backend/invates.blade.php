@@ -49,7 +49,10 @@
                           $name - имя инвестра
                         </span>
                         <div class="form-group{{ $errors->has('text_email') ? ' has-error' : '' }}">
-                            <label for="text_email" class="col-md-2 control-label">Текст email</label>
+                            <label for="text_email" class="col-md-2 control-label">
+                              Текст email
+                              <a href="{{ route('dash_email_view') }}" class="btn btn-default" role="button">View email</a>
+                            </label>
                             <div class="col-md-10">
                               <div class="input-group">
                                 <span class="input-group-addon">
