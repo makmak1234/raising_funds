@@ -66,15 +66,16 @@ class InvestController extends Controller
             $this->validate($request, [
                 'name' => 'required|string|max:255',
                 'yan_money' => 'required|string|max:20',
-                'phone' => 'required|string|max:13',
+                'phone' => 'required|string|max:15',
                 'email' => 'required|string|email|max:255',
             ]);
+            $phone = $this->clear_fone($request['phone']);
 
             DB::table('investors')
                 ->where('id', $request->id)
                 ->update(['name' => $request['name'],
                     'yan_money' => $request['yan_money'],
-                    'phone' => $request['phone'],
+                    'phone' => $phone,
                     'email' => $request['email'],
                 ]);
             if ($request['password'] != "false1") {
@@ -91,15 +92,16 @@ class InvestController extends Controller
             $this->validate($request, [
                 'name' => 'required|string|max:255',
                 'yan_money' => 'required|string|max:20',
-                'phone' => 'required|string|max:13',
+                'phone' => 'required|string|max:15',
                 'email' => 'required|string|email|max:255|unique:investors',
                 'password' => 'required|string|min:6|confirmed',
             ]);
+            $phone = $this->clear_fone($request['phone']);
 
             $investor = Investors::create([
                 'name' => $request['name'],
                 'yan_money' => $request['yan_money'],
-                'phone' => $request['phone'],
+                'phone' => $phone,
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
             ]);
@@ -121,6 +123,13 @@ class InvestController extends Controller
         }else{
             return redirect()->route('dash_investors');
         }
+    }
+
+    //очистка телефона
+    private function clear_fone($person_phone){
+        $phone = str_replace(array("+", " ", "(", ")", "-"), "", $person_phone);
+
+        return $phone;
     }
 
     /**

@@ -45,7 +45,8 @@
                             <label for="phone" class="col-md-4 control-label">Телефон</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="text" class="form-control" name="phone" value="{{ $investor->phone }}" required autofocus>
+                                {{-- <input id="phone" type="text" class="form-control" name="phone" value="{{ $investor->phone }}" required autofocus> --}}
+                                <input name="phone" id="phone" type="text" class="form-control" placeholder="7(___) ___-____" value="{{ $investor->phone }}" required autofocus>
 
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
@@ -113,5 +114,12 @@
     <script type="text/javascript">
       $('#password').attr('value', "false1");
       // $('#password').attr('value', "");
+
+      //Код jQuery, установливающий маску для ввода телефона элементу input
+        //1. После загрузки страницы,  когда все элементы будут доступны выполнить...
+        $(function(){
+          //2. Получить элемент, к которому необходимо добавить маску
+          $("#phone").mask("7(999) 999-9999");
+        });
     </script>
 @endsection

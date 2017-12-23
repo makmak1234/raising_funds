@@ -76,6 +76,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap.min.js') }}"></script> --}}
+    <script src="{{ asset('js/jquery.maskedinput.min.js') }}"></script>
     @yield('myjs')
 </body>
 </html>

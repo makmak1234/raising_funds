@@ -48,15 +48,16 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'required|string|max:255',
                 'login' => 'required|string|max:20',
-                'phone' => 'required|string|max:13',
+                'phone' => 'required|string|max:15',
                 'email' => 'required|string|email|max:255',
             ]);
+            $phone = $this->clear_fone($request['phone']);
 
             DB::table('users')
                 ->where('id', $request->id)
                 ->update(['name' => $request['name'],
                     'login' => $request['login'],
-                    'phone' => $request['phone'],
+                    'phone' => $phone,
                     'email' => $request['email'],
                 ]);
             if ($request['password'] != "false1") {
@@ -73,21 +74,29 @@ class AdminController extends Controller
             $this->validate($request, [
                 'name' => 'required|string|max:255',
                 'login' => 'required|string|max:20',
-                'phone' => 'required|string|max:13',
+                'phone' => 'required|string|max:15',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
             ]);
+            $phone = $this->clear_fone($request['phone']);
 
             User::create([
             'name' => $request['name'],
             'login' => $request['login'],
-            'phone' => $request['phone'],
+            'phone' => $phone,
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
         ]);
         }
 
         return redirect()->route('dash_users');
+    }
+
+    //очистка телефона
+    private function clear_fone($person_phone){
+        $phone = str_replace(array("+", " ", "(", ")", "-"), "", $person_phone);
+
+        return $phone;
     }
 
     /**
