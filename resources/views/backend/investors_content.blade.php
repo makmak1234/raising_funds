@@ -27,7 +27,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="panel panel-default">
                 {{-- <div class="panel-heading">Панель управления</div> --}}
 
@@ -41,36 +41,38 @@
                     <a href="{{ url('/dashboard/register_investor') }}" class="btn btn-primary">Добавить инвестора</a>
 
                 </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Имя</th>
-                            <th>Яндекс кошелек</th>
-                            <th>Телефон</th>
-                            <th>email</th>
-                            <th>Создан</th>
-                            <th>Кло-во инвестиций</th>
-                            <th>Сумма инвестиций</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($investors as $investor)
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>{{$investor->name}}</td>
-                                <td>{{$investor->yan_money}}</td>
-                                <td>{{$investor->phone}}</td>
-                                <td>{{$investor->email}}</td>
-                                <td>{{$investor->created_at}}</td>
-                                <td><a href="show_invests/{{ $investor->id }}">{{$amount_count[$loop->index]}}</a></td>
-                                <td>{{$amount_all[$loop->index]}}</td>
-                                <td><a href="update_investor/{{ $investor->id }}" class="btn btn-default" type="button">Редактировать</a></td>
-                                <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $investor->id }}deleteRecord" curid="{{ $investor->id }}" investor_name="{{$investor->name}}">Удалить</button></td>
+                                <th>Имя</th>
+                                <th>Яндекс кошелек</th>
+                                <th>Телефон</th>
+                                <th>email</th>
+                                <th>Создан</th>
+                                <th>Кло-во инвестиций</th>
+                                <th>Сумма инвестиций</th>
+                                <th></th>
+                                <th></th>
                             </tr>
-                        @endforeach
-                    </tbody>   
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($investors as $investor)
+                                <tr>
+                                    <td>{{$investor->name}}</td>
+                                    <td>{{$investor->yan_money}}</td>
+                                    <td>{{$investor->phone}}</td>
+                                    <td>{{$investor->email}}</td>
+                                    <td>{{$investor->created_at}}</td>
+                                    <td><a href="show_invests/{{ $investor->id }}">{{$amount_count[$loop->index]}}</a></td>
+                                    <td>{{$amount_all[$loop->index]}}</td>
+                                    <td><a href="update_investor/{{ $investor->id }}" class="btn btn-default" type="button">Редактировать</a></td>
+                                    <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $investor->id }}deleteRecord" curid="{{ $investor->id }}" investor_name="{{$investor->name}}">Удалить</button></td>
+                                </tr>
+                            @endforeach
+                        </tbody>   
+                    </table>
+                </div>
             </div>
         </div>
     </div>

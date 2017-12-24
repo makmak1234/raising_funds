@@ -116,11 +116,11 @@ class InvatesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function emailView(Request $request)
+    public function emailView($text_email)
     {
         $investors = Investors::select('name', 'email', 'phone')->first();
-        $text_email = Text::where('type', 'text_email')->get();
-        $text_send = $text_email[0]->order_text;
+        // $text_email = Text::where('type', 'text_email')->get();
+        $text_send = $text_email;//$text_email[0]->order_text;
         $name = $investors->name;
         $email = $investors->email;
         eval("\$text_send = \"$text_send\";");

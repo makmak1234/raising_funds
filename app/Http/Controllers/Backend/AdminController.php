@@ -62,7 +62,7 @@ class AdminController extends Controller
                 ]);
             if ($request['password'] != "false1") {
                 $this->validate($request, [
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:3|confirmed',
             ]);
                 DB::table('users')
                 ->where('id', $request->id)
@@ -76,7 +76,7 @@ class AdminController extends Controller
                 'login' => 'required|string|max:20',
                 'phone' => 'required|string|max:15',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:3|confirmed',
             ]);
             $phone = $this->clear_fone($request['phone']);
 

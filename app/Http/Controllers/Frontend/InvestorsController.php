@@ -37,7 +37,15 @@ class InvestorsController extends Controller
     {
         // $myecho = json_encode($request);
         // `echo " request: $myecho    " >>/tmp/qaz`;
- 
+        if (Auth::guard('investors')->check()){
+            $investor = Auth::guard('investors')->user();
+            $invests = $investor->invests;
+
+            $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept]);
+        }
+
         if (Auth::guard('investors')->attempt(["phone" => $request->phone, "password" => $request->password])) {
             $investor = Auth::guard('investors')->user();
             // $client = $user->client()->first();

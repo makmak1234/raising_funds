@@ -26,7 +26,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             {{-- <div class="panel panel-default"> --}}
                 {{-- <div class="panel-heading">Панель управления</div> --}}
 
@@ -48,70 +48,75 @@
                     {{-- <div class="panel-body">
                         <p>...</p>
                     </div> --}}
+
                     <div class="panel-body bg-info">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Имя</th>
-                                    <th>Яндекс кошелек</th>
-                                    <th>Телефон</th>
-                                    <th>email</th>
-                                    <th>Добавлен</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{$investor->name}}</td>
-                                    <td>{{$investor->yan_money}}</td>
-                                    <td>{{$investor->phone}}</td>
-                                    <td>{{$investor->email}}</td>
-                                    <td>{{$investor->created_at}}</td>
-                                </tr>
-                            </tbody>   
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Яндекс кошелек</th>
+                                        <th>Телефон</th>
+                                        <th>email</th>
+                                        <th>Добавлен</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{$investor->name}}</td>
+                                        <td>{{$investor->yan_money}}</td>
+                                        <td>{{$investor->phone}}</td>
+                                        <td>{{$investor->email}}</td>
+                                        <td>{{$investor->created_at}}</td>
+                                    </tr>
+                                </tbody>   
+                            </table>
+                        </div>
                     </div>
 
                     <!-- Table -->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Сумма инвестиции, руб</th>
-                                <th>Срок</th>
-                                <th>Дата внесения инвестиции</th>
-                                <th>Решение</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($invests as $invest)
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
                                 <tr>
-                                    <td>{{$invest->amount}}</td>
-                                    <td>{{$invest->term}}</td>
-                                    <td>{{$invest->created_at}}</td>
-                                    <td>
-                                        @php
-                                            // $a_href0 = "href=/dashboard/update_solve/$invest->id/0";
-                                            // $a_href1 = "href=/dashboard/update_solve/$invest->id/1";
-                                            // $a_href2 = "href=/dashboard/update_solve/$invest->id/2";
-                                            if ($invest->accept == 0){
-                                                $inf_cls = "alert-danger";
-                                                // $a_href0 = "";
-                                            }elseif($invest->accept == 1){
-                                                $inf_cls = "alert-success";
-                                                // $a_href1 = "";
-                                            }elseif($invest->accept == 2){
-                                                $inf_cls = "alert-default";
-                                                // $a_href2 = "";
-                                            }
-                                        @endphp
-                                        <!-- Single button -->
-                                        <div class="alert {{$inf_cls}}" role="alert">{{$accept[$invest->accept]}}</div>
-                                        </div>
-                                    </td>
-                                    
+                                    <th>Сумма инвестиции, руб</th>
+                                    <th>Срок</th>
+                                    <th>Дата внесения инвестиции</th>
+                                    <th>Решение</th>
                                 </tr>
-                            @endforeach
-                        </tbody>   
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($invests as $invest)
+                                    <tr>
+                                        <td>{{$invest->amount}}</td>
+                                        <td>{{$invest->term}}</td>
+                                        <td>{{$invest->created_at}}</td>
+                                        <td>
+                                            @php
+                                                // $a_href0 = "href=/dashboard/update_solve/$invest->id/0";
+                                                // $a_href1 = "href=/dashboard/update_solve/$invest->id/1";
+                                                // $a_href2 = "href=/dashboard/update_solve/$invest->id/2";
+                                                if ($invest->accept == 0){
+                                                    $inf_cls = "alert-danger";
+                                                    // $a_href0 = "";
+                                                }elseif($invest->accept == 1){
+                                                    $inf_cls = "alert-success";
+                                                    // $a_href1 = "";
+                                                }elseif($invest->accept == 2){
+                                                    $inf_cls = "alert-default";
+                                                    // $a_href2 = "";
+                                                }
+                                            @endphp
+                                            <!-- Single button -->
+                                            <div class="alert {{$inf_cls}}" role="alert">{{$accept[$invest->accept]}}</div>
+                                            </div>
+                                        </td>
+                                        
+                                    </tr>
+                                @endforeach
+                            </tbody>   
+                        </table>
+                    </div>
                 </div>
             {{-- </div> --}}
         </div>

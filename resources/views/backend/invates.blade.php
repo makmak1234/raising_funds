@@ -51,7 +51,7 @@
                         <div class="form-group{{ $errors->has('text_email') ? ' has-error' : '' }}">
                             <label for="text_email" class="col-md-2 control-label">
                               Текст email
-                              <a href="{{ route('dash_email_view') }}" class="btn btn-default" role="button">View email</a>
+                              <a class="btn btn-default" role="button" id="email_view">View email</a>
                             </label>
                             <div class="col-md-10">
                               <div class="input-group">
@@ -139,7 +139,12 @@
         invates_class.attr('class', t_class);
         // $('#invates_send').onclick().submit();
         
-      })
+      });
+      $('#email_view').on('click', function () {
+        text_email = $('#text_email').val();
+        var url = "/dashboard/invates/view/email/" + text_email;
+        $(location).attr('href',url);
+      });
       function message(message){
         alert(message + " будут отправлены в течении нескольких минут");
       }

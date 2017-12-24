@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Investors;
 use App\Invest;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class InvestController extends Controller
 {
@@ -80,7 +81,7 @@ class InvestController extends Controller
                 ]);
             if ($request['password'] != "false1") {
                 $this->validate($request, [
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:3|confirmed',
             ]);
                 DB::table('investors')
                 ->where('id', $request->id)
@@ -94,7 +95,7 @@ class InvestController extends Controller
                 'yan_money' => 'required|string|max:20',
                 'phone' => 'required|string|max:15',
                 'email' => 'required|string|email|max:255|unique:investors',
-                'password' => 'required|string|min:6|confirmed',
+                'password' => 'required|string|min:3|confirmed',
             ]);
             $phone = $this->clear_fone($request['phone']);
 
@@ -119,6 +120,7 @@ class InvestController extends Controller
         // `echo " front:  $myecho  " >>/tmp/qaz`;
 
         if ($request['front'] == 'true') {
+            Auth::guard('investors')->login($investor);
             return redirect()->route('front_show_investor', ['id' => $investor->id]);           
         }else{
             return redirect()->route('dash_investors');

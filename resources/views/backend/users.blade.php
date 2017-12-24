@@ -29,7 +29,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="panel panel-default">
                 {{-- <div class="panel-heading">Панель управления</div> --}}
 
@@ -43,32 +43,34 @@
                     <a href="{{ url('/dashboard/register_user') }}" class="btn btn-primary">Добавить пользователя</a>
 
                 </div>
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Имя Фамилия</th>
-                            <th>Логин</th>
-                            <th>Телефон</th>
-                            <th>email</th>
-                            <th>Добавлен</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($users as $user)
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
                             <tr>
-                                <td>{{$user->name}}</td>
-                                <td>{{$user->login}}</td>
-                                <td>{{$user->phone}}</td>
-                                <td>{{$user->email}}</td>
-                                <td>{{$user->created_at}}</td>
-                                <td><a href="update_user/{{ $user->id }}" class="btn btn-default" type="button">Редактировать</a></td>
-                                <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $user->id }}deleteRecord" curid="{{ $user->id }}" user_name="{{$user->name}}">Удалить</button></td>
+                                <th>Имя Фамилия</th>
+                                <th>Логин</th>
+                                <th>Телефон</th>
+                                <th>email</th>
+                                <th>Добавлен</th>
+                                <th></th>
+                                <th></th>
                             </tr>
-                        @endforeach
-                    </tbody>   
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->login}}</td>
+                                    <td>{{$user->phone}}</td>
+                                    <td>{{$user->email}}</td>
+                                    <td>{{$user->created_at}}</td>
+                                    <td><a href="update_user/{{ $user->id }}" class="btn btn-default" type="button">Редактировать</a></td>
+                                    <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $user->id }}deleteRecord" curid="{{ $user->id }}" user_name="{{$user->name}}">Удалить</button></td>
+                                </tr>
+                            @endforeach
+                        </tbody>   
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
 			Route::get('{message?}', 'Backend\InvatesController@invatesInvestors')->name('dash_invates');
 			Route::get('error/{send_email?}/{send_sms?}', 'Backend\InvatesController@invatesErrorInvestors')->name('dash_invates_error');
 			Route::post('send', 'Backend\InvatesController@invatesStore')->name('dash_send_invates');
-			Route::get('view/email', 'Backend\InvatesController@emailView')->name('dash_email_view');
+			Route::get('view/email/{text_email}', 'Backend\InvatesController@emailView')->name('dash_email_view');
 		});
 	});
 	
@@ -57,7 +57,7 @@ Route::group(['middleware' => ['frontend']], function () {
 });
 
 Route::get('/private/auth_investor', function () {return view('frontend.auth_investor');})->name('priv_auth_investor');
-Route::post('/private/check_investor', 'Frontend\InvestorsController@checkInvestor')->name('priv_check_investor');
+Route::match(['get', 'post'], '/private/check_investor', 'Frontend\InvestorsController@checkInvestor')->name('priv_check_investor');
 
 
 Route::get('/', function () {

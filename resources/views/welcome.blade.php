@@ -14,28 +14,34 @@
         <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
         
     </head>
-    <body style="background: url( {{ asset('storage/email/moneytree.jpg') }} ) no-repeat; background-size: cover;">
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Админ</a>
-                    @else
-                        <a href="{{ url('/login') }}">Войти админу</a>
-                        {{-- <a href="{{ url('/register') }}">Register</a> --}}
-                    @endif
-                </div>
-            @endif
+    <body >
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="flex-center position-ref full-height" style="background: url( {{ asset('storage/email/moneytree.jpg') }} ) no-repeat; background-size: cover;">
+                        @if (Route::has('login'))
+                            <div class="top-right links">
+                                @if (Auth::check())
+                                    <a href="{{ url('/home') }}">Админ</a>
+                                @else
+                                    <a href="{{ url('/login') }}">Войти админу</a>
+                                    {{-- <a href="{{ url('/register') }}">Register</a> --}}
+                                @endif
+                            </div>
+                        @endif
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Привлечение инвестиций
+                        <div class="content">
+                            <div class="title m-b-md">
+                                Привлечение инвестиций
+                            </div>
+                            <div class=" m-b-md">
+                                <h2><a href="/private/auth_investor">Хочу инвестировать</a></h2>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
-                <div class=" m-b-md">
-                    <h2><a href="/private/auth_investor">Хочу инвестировать</a></h2>
-                </div>
-                
             </div>
-        </div>
+        </div>    
     </body>
 </html>
