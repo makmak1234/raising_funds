@@ -88,7 +88,7 @@
                             <label for="password-confirm" class="col-md-4 control-label">Подтвердить пароль</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="если меняется пароль">
                             </div>
                         </div>
 

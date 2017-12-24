@@ -47,13 +47,14 @@ class InvestController extends Controller
             }
             $amount_all[] = $all;
             $amount_count[] = $i;
+            $amount = array_sum($amount_all);
         }
 
         // $myecho = json_encode($amounts);
         // `echo " myamount:    " >>/tmp/qaz`;
         // `echo "$myecho" >>/tmp/qaz`; 
 
-        return view('backend.investors', ["investors" => $investors, "amount_all" => $amount_all, "amount_count" => $amount_count]);
+        return view('backend.investors', ["investors" => $investors, "amount_all" => $amount_all, "amount_count" => $amount_count, "amount" => $amount,]);
     }
 
      /**
@@ -165,9 +166,14 @@ class InvestController extends Controller
 
         $invests = $investor->invests;
 
+        $amount = 0;
+        foreach ($invests as $invest) {
+            $amount += $invest->amount;
+        }
+
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-        return view('backend.show_invests', ["investor" => $investor, "invests" => $invests, "accept" => $accept]);
+        return view('backend.show_invests', ["investor" => $investor, "invests" => $invests, "accept" => $accept, "amount" => $amount]);
     }
 
     /**

@@ -14,26 +14,28 @@
                         <p>...</p>
                     </div> --}}
                     <div class="panel-body bg-info">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Имя</th>
-                                    <th>Яндекс кошелек</th>
-                                    <th>Телефон</th>
-                                    <th>email</th>
-                                    <th>Добавлен</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{$investor->name}}</td>
-                                    <td>{{$investor->yan_money}}</td>
-                                    <td>{{$investor->phone}}</td>
-                                    <td>{{$investor->email}}</td>
-                                    <td>{{$investor->created_at}}</td>
-                                </tr>
-                            </tbody>   
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Имя</th>
+                                        <th>Яндекс кошелек</th>
+                                        <th>Телефон</th>
+                                        <th>email</th>
+                                        <th>Добавлен</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{$investor->name}}</td>
+                                        <td>{{$investor->yan_money}}</td>
+                                        <td>{{$investor->phone}}</td>
+                                        <td>{{$investor->email}}</td>
+                                        <td>{{$investor->created_at}}</td>
+                                    </tr>
+                                </tbody>   
+                            </table>
+                        </div>
                     </div>
                 </div>
 
