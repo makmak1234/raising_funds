@@ -99,6 +99,13 @@ class InvestController extends Controller
                 'password' => 'required|string|min:3|confirmed',
             ]);
             $phone = $this->clear_fone($request['phone']);
+            $hash = md5(env('SALT1') . time() . env('SALT2'));
+
+            //  $myecho = env('SALT1');
+            // `echo " SALT1:  $myecho  " >>/tmp/qaz`;
+            // $myecho = time();
+            // `echo " time:  $myecho  " >>/tmp/qaz`;
+            // exit();
 
             $investor = Investors::create([
                 'name' => $request['name'],
@@ -106,6 +113,7 @@ class InvestController extends Controller
                 'phone' => $phone,
                 'email' => $request['email'],
                 'password' => bcrypt($request['password']),
+                'hash' => $hash,
             ]);
 
             // $investor = new Investors;
@@ -219,20 +227,20 @@ class InvestController extends Controller
                 'term' => 'required|date|after:tomorrow',
             ]);
 
-            Invest::create([
-                'amount' => $request['amount'],
-                'term' => $request['term'],
-                'investors_id' => $request['id_investor'],
-                'accept' => $request['accept'],
-            ]);
+            // Invest::create([
+            //     'amount' => $request['amount'],
+            //     'term' => $request['term'],
+            //     'investors_id' => $request['id_investor'],
+            //     'accept' => $request['accept'],
+            // ]);
         }
 
         // $id_investor = Invest::find($request->id)->investors->id;
 
         if ($request['front'] == 'true') {
-            return redirect()->route('front_show_investor', ['id' => $request->id_investor]);           
+            return redirect()->route('front_show_investor', ['id' => $request->id_investor, 'id_form' => 'id_form']);           
         }else{
-            return redirect()->route('dash_show_invests', [$request->id_investor]);
+            return redirect()->route('dash_show_invests', ['id' => $request->id_investor]);
         }
     }
 
@@ -278,5 +286,41 @@ class InvestController extends Controller
 // `echo "date_now: " . $myecho >>/tmp/qaz`; 
 
         return view('backend.add_invest', ["investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
+    }
+
+    public function redirectYandex(){
+        $xml_data = array ("receiver" => "410013775631887",
+            "formcomment" => "Инвестиции для Миллитарихолдинг",
+            "short-dest" => "Инвестиции для Миллитарихолдинг",
+            "label" => "order_id",
+            "quickpay-form" => "donate",
+            "targets" => "транзакция {order_id}",
+            "sum" => "48.25",
+            "comment" => "Инвестиции для Миллитарихолдинг",
+            "need-fio" => "410013775631887",
+            "need-email" => "410013775631887",
+            "need-phone" => "410013775631887",
+            "need-address" => "410013775631887"
+            );
+        if( $curl = curl_init() ) {
+            curl_setopt($curl, CURLOPT_URL, 'https://money.yandex.ru/quickpay/confirm.xml');
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $xml_data);                                                                                                                                      
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Content-Type: text/xml',
+                'Content-Length: ' . strlen(implode($xml_data)))
+            ); 
+            
+            $out = curl_exec($curl);
+            curl_close($curl);
+
+            // header ("Location: $dirbasbi1");
+
+             $myecho = json_encode($out);
+            `echo "out: " . $myecho >>/tmp/qaz`; 
+            // exit;
+            return;
+        }
     }
 }

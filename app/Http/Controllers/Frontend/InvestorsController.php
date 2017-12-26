@@ -1,4 +1,5 @@
-<?php namespace App\Http\Controllers\Frontend;
+<?php 
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -43,7 +44,7 @@ class InvestorsController extends Controller
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept]);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'hull']);
         }
 
         if (Auth::guard('investors')->attempt(["phone" => $request->phone, "password" => $request->password])) {
@@ -63,7 +64,7 @@ class InvestorsController extends Controller
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept]);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'hull']);
             // return redirect()->route('front_show_investor', ["id" => $investor->id]);
         }
         else{
@@ -72,12 +73,35 @@ class InvestorsController extends Controller
         }
     }
 
+    /**
+     * Авторизация пользователя
+     *
+     * @return Response
+     */
+    public function hashInvestor($hash = null)
+    {
+        if (Investors::where('hash', $hash)->get()){
+            $investor = Investors::where('hash', $hash)->get();
+            $investor = $investor[0];
+            Auth::guard('investors')->login($investor);
+            $invests = $investor->invests;
+
+            $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'hull']);
+        }
+        else{
+            // $message = "Телефон или пароль неверен";
+            return view("frontend.auth_investor");//, ["message" => $message]
+        }
+    }
+
     public function privateLogout(){
         Auth::guard('investors')->logout();
         return redirect()->route("priv_auth_investor");
     }
 
-    public function showInvest($id)
+    public function showInvest($id, $id_form = 'null')
     {
         $investor = Investors::find($id);
 
@@ -93,7 +117,7 @@ class InvestorsController extends Controller
 
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept]);
+        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form]);
     }
 
     /**

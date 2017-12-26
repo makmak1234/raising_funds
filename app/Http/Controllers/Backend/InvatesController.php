@@ -118,14 +118,15 @@ class InvatesController extends Controller
      */
     public function emailView($text_email)
     {
-        $investors = Investors::select('name', 'email', 'phone')->first();
+        $investors = Investors::select('name', 'email', 'phone', 'hash')->first();
         // $text_email = Text::where('type', 'text_email')->get();
         $text_send = $text_email;//$text_email[0]->order_text;
         $name = $investors->name;
         $email = $investors->email;
+        $hash = $investors->hash;
         eval("\$text_send = \"$text_send\";");
 
-        return view('mail.emailAdmin',  ["name" => $text_send]);
+        return view('mail.emailAdmin',  ["name" => $text_send, "hash" => $hash]);
     }
     
 

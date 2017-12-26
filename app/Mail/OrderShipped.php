@@ -25,16 +25,17 @@ class OrderShipped extends Mailable
     protected $pricegoods;
     protected $priceall;
     protected $comment;
+    protected $hash;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name)//(Order $order)
+    public function __construct($name, $hash)//(Order $order)
     {
         $this->name = $name;
-        // $this->order = $order;
+        $this->hash = $hash;
         // $this->title = $title;
         // $this->tel = $tel;
         // $this->email = $email;
@@ -61,7 +62,7 @@ class OrderShipped extends Mailable
                 ->view('mail.emailAdmin')
                 ->with([
                         'name' => $this->name,
-                        // 'order' => $this->order,
+                        'hash' => $this->hash,
                         // 'title' => $this->title,
                         // 'tel' => $this->tel,
                         // 'email' => $this->email,

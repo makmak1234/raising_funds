@@ -51,12 +51,13 @@ Route::group(['middleware' => ['frontend']], function () {
 	Route::group(['prefix' => 'private'], function () {
 		Route::post('logout', 'Frontend\InvestorsController@privateLogout')->name('priv_logout');
 		
-		Route::get('show_invests/{id}', 'Frontend\InvestorsController@showInvest')->name('front_show_investor');
+		Route::get('show_invests/{id}/{id_form?}', 'Frontend\InvestorsController@showInvest')->name('front_show_investor');
 		Route::get('add_invest/{id}', 'Frontend\InvestorsController@addInvest')->name('priv_add_invest');
 	});
 });
 
 Route::get('/private/auth_investor', function () {return view('frontend.auth_investor');})->name('priv_auth_investor');
+Route::get('/private/hash_investor/{hash?}', 'Frontend\InvestorsController@hashInvestor')->name('priv_hash_investor');
 Route::match(['get', 'post'], '/private/check_investor', 'Frontend\InvestorsController@checkInvestor')->name('priv_check_investor');
 
 
