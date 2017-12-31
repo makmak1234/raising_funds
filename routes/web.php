@@ -19,6 +19,8 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('del_user/{id}', 'Backend\AdminController@deleteUser')->name('dash_del_user');
 		Route::post('store_user', 'Backend\AdminController@storeUser')->name('dash_store_user');
 		Route::get('register_user', function () { return view('backend.register_user'); })->name('dash_reg_user');
+		Route::get('parameters', 'Backend\AdminController@viewParameters')->name('dash_parametrs');
+		Route::post('store/parameters', 'Backend\AdminController@storeParameters')->name('dash_store_param');
 
 		Route::get('investors', 'Backend\InvestController@investors')->name('dash_investors');
 		Route::get('update_investor/{id}', 'Backend\InvestController@updateInvestor')->name('dash_update_investor');
@@ -29,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('add_invest/{id}', 'Backend\InvestController@addInvest')->name('dash_add_invest');
 		Route::get('update_solve/{id}/{accept}', 'Backend\InvestController@updateSolve')->name('dash_update_solve');
 		Route::get('update_invest/{id}', 'Backend\InvestController@updateInvest')->name('dash_update_invest');
+		Route::post('sent_invest', 'Backend\InvestController@updateSentInvest')->name('dash_sent_invest');
 		Route::get('del_invest/{id}', 'Backend\InvestController@deleteInvest')->name('dash_del_invest');
 
 		Route::group(['prefix' => 'invates'], function () {
@@ -59,7 +62,9 @@ Route::group(['middleware' => ['frontend']], function () {
 Route::get('/private/auth_investor', function () {return view('frontend.auth_investor');})->name('priv_auth_investor');
 Route::get('/private/hash_investor/{hash?}', 'Frontend\InvestorsController@hashInvestor')->name('priv_hash_investor');
 Route::match(['get', 'post'], '/private/check_investor', 'Frontend\InvestorsController@checkInvestor')->name('priv_check_investor');
+Route::post('/conf_trans', 'Backend\InvestController@confirmTransfer')->name('conf_trans');
 
+Route::post('/add_label', 'Backend\InvestController@addLabel')->name('add_label');
 
 Route::get('/', function () {
     return view('welcome');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Investors;
+use App\Parameters;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -38,33 +39,26 @@ class InvestorsController extends Controller
     {
         // $myecho = json_encode($request);
         // `echo " request: $myecho    " >>/tmp/qaz`;
-        if (Auth::guard('investors')->check()){
+        // if (Auth::guard('investors')->check() || Auth::guard('investors')->attempt(["phone" => $request->phone, "password" => $request->password])){
+        //     $investor = Auth::guard('investors')->user();
+        //     $invests = $investor->invests;
+        //     $yan_money = Parameters::where('title', 'yan_money')->get();
+
+        //     $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+
+        //     return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money]);
+        // }
+
+        if (Auth::guard('investors')->check() || Auth::guard('investors')->attempt(["phone" => $request->phone, "password" => $request->password])) {
             $investor = Auth::guard('investors')->user();
-            $invests = $investor->invests;
-
-            $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
-
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'hull']);
-        }
-
-        if (Auth::guard('investors')->attempt(["phone" => $request->phone, "password" => $request->password])) {
-            $investor = Auth::guard('investors')->user();
-            // $client = $user->client()->first();
-
-            // if ($client->trashed())
-            //     return response()->json(["success" => false, "message" => trans("auth.auth-client-disabled")]);
-
-            // $token = str_random(100);
-            // $user->update([
-            //     "token"         => $token,
-            //     "token_expired" => Carbon::now()->addMinutes(config("app.token_expired"))
-            // ]);
+            
+            $yan_money = Parameters::where('title', 'yan_money')->get();
 
             $invests = $investor->invests;
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'hull']);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money]);
             // return redirect()->route('front_show_investor', ["id" => $investor->id]);
         }
         else{
@@ -85,10 +79,11 @@ class InvestorsController extends Controller
             $investor = $investor[0];
             Auth::guard('investors')->login($investor);
             $invests = $investor->invests;
+            $yan_money = Parameters::where('title', 'yan_money')->get();
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'hull']);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money]);
         }
         else{
             // $message = "Телефон или пароль неверен";
@@ -101,7 +96,7 @@ class InvestorsController extends Controller
         return redirect()->route("priv_auth_investor");
     }
 
-    public function showInvest($id, $id_form = 'null')
+    public function showInvest($id, $id_form = 'false')
     {
         $investor = Investors::find($id);
 
@@ -115,9 +110,11 @@ class InvestorsController extends Controller
 
         $invests = $investor->invests;
 
+        $yan_money = Parameters::where('title', 'yan_money')->get();
+
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form]);
+        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form, 'yan_money' => $yan_money]);
     }
 
     /**
@@ -139,5 +136,29 @@ class InvestorsController extends Controller
 
         return view('frontend.add_invest', ["investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
     }
+
+    // public function showSentInvest($id, $id_invest, $id_form = 'false')
+    // {
+    //     $investor = Investors::find($id);
+
+    //     $investor_check = Auth::guard('investors')->user();
+
+    //     if ($id != $investor_check->id) {
+    //         return redirect()->route("priv_auth_investor");
+    //     }        
+
+    //     $invests = $investor->invests;
+
+    //     DB::table('invests')
+    //         ->where('id', $id_invest)
+    //         ->update([
+    //             'amount_type' => '3',
+    //         ]); 
+
+    //     $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+
+    //     return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form]);
+    // }
+
 
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Investors;
 use App\Invest;
+use App\Parameters;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -211,7 +212,7 @@ class InvestController extends Controller
     {   
         if (isset($request->id)) {
             $this->validate($request, [
-                'amount' => 'required|numeric|max:1000000000|min:1',
+                'amount' => 'required|numeric|max:1000000000|min:2',
                 'term' => 'required|date|after:tomorrow',
             ]);
 
@@ -227,18 +228,19 @@ class InvestController extends Controller
                 'term' => 'required|date|after:tomorrow',
             ]);
 
-            // Invest::create([
-            //     'amount' => $request['amount'],
-            //     'term' => $request['term'],
-            //     'investors_id' => $request['id_investor'],
-            //     'accept' => $request['accept'],
-            // ]);
+            Invest::create([
+                'amount' => $request['amount'],
+                'label' => env('ID_SHOP') . intval($request->amount) . random_int(10000, 99999),
+                'term' => $request['term'],
+                'investors_id' => $request['id_investor'],
+                'accept' => $request['accept'],
+            ]);
         }
 
         // $id_investor = Invest::find($request->id)->investors->id;
 
         if ($request['front'] == 'true') {
-            return redirect()->route('front_show_investor', ['id' => $request->id_investor, 'id_form' => 'id_form']);           
+            return redirect()->route('front_show_investor', ['id' => $request->id_investor, 'id_form' => 'true']);           
         }else{
             return redirect()->route('dash_show_invests', ['id' => $request->id_investor]);
         }
@@ -256,6 +258,27 @@ class InvestController extends Controller
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
         $date_now = Carbon::tomorrow()->toDateString();
         return view('backend.update_invest', ["invest" => $invest, "investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSentInvest(Request $request)
+    {
+        DB::table('invests')
+            ->where('label', $request->label)
+            ->update(['amount_type' => '2',
+                'time_got' => Carbon::now(),
+            ]);
+
+        return redirect()->route('dash_show_invests', [$request->id_investor]);
+        // $investor = Invest::find($id)->investors;
+        // $invest = Invest::find($id);
+        // $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
+        // $date_now = Carbon::tomorrow()->toDateString();
+        // return view('backend.update_invest', ["invest" => $invest, "investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
     }
 
     /**
@@ -286,6 +309,63 @@ class InvestController extends Controller
 // `echo "date_now: " . $myecho >>/tmp/qaz`; 
 
         return view('backend.add_invest', ["investor" => $investor, "accept" => $accept, "date_now" => $date_now]);
+    }
+
+    public function confirmTransfer(Request $request)
+    {
+
+        $yan_secret = DB::table('parameters')->where('title', 'yan_secret')->get();
+
+        $secret_str = $request['notification_type'] . '&' . $request['operation_id'] . '&' . $request['amount'] . '&'. $request['currency']. '&'. $request['datetime']. '&' .$request['sender']. '&'. $request['codepro'] .'&'. $yan_secret[0]->parameter . '&'. $request['label'];
+
+        $secret = sha1($secret_str);
+        
+//  $myecho = json_encode($secret);
+// `echo "secret: "  $myecho >> /tmp/qaz`;
+
+        $datetime = $request['datetime'];
+        $datetime = str_replace("T", " ", $datetime);
+        $datetime = str_replace("Z", " ", $datetime);
+
+        if ($secret == $request['sha1_hash']) {
+            DB::table('invests')
+            ->where('label', $request['label'])
+            ->update([
+                'amount_got' => $request['amount'],
+                'amount_type' => '1',
+                'time_got' => $datetime,
+                'label' => $request['label'],
+                'operation_id' => $request['operation_id'],
+                'full_answer' => json_encode($_POST),
+            ]);
+        }
+
+        DB::table('admins')
+            ->where('id', 1)
+            ->update([
+                'name' => $secret,
+            ]); 
+
+        DB::table('admins')
+            ->where('id', 2)
+            ->update([
+                'name' => json_encode($_POST),
+            ]); 
+
+        DB::table('admins')
+            ->where('id', 3)
+            ->update([
+                'name' => $secret_str,
+            ]); 
+
+        DB::table('admins')
+            ->where('id', 4)
+            ->update([
+                'name' => $request['sha1_hash'],
+            ]);
+
+        return response('HTTP 200 OK')
+                  ->header('Content-Type', 'text/plain');
     }
 
     public function redirectYandex(){
@@ -322,5 +402,30 @@ class InvestController extends Controller
             // exit;
             return;
         }
+    }
+
+    public function addLabel(Request $request)
+    {
+       $count_invst = Invest::count(); 
+
+$str = '{"amount":"150.00","datetime":"2017-11-28 12:05:30","label":"label","full_answer":"{\"notification_type\":\"p2p-incoming\",                            \"amount\":\"306.83\",                            \"datetime\":\"2017-12-29T15:01:30Z\",                            \"codepro\":\"false\",                            \"sender\":\"41001000040\",                            \"sha1_hash\":\"0a012ef5ebd0b0cbff1ddb212a5440ac21e71597\",                            \"test_notification\":\"true\",                            \"operation_label\":\"\",                            \"operation_id\":\"test-notification\",                            \"currency\":\"643\",                            \"label\":\"\"}"}';
+ $myecho = strlen($str);
+`echo "strlen: "  $myecho >> /tmp/qaz`; 
+
+$invest = Invest::find(8);
+$myecho = ($invest->created_at);
+`echo "created_at: "  $myecho >> /tmp/qaz`; 
+        
+        // $invests = Invest::all();
+        // foreach ($invests as $invest) {
+        //     $label = env('ID_SHOP') . intval($invest->amount) . random_int(10000, 99999);
+        //     $invest->update([
+        //         'label' => $label,
+        //     ]);
+        // }
+
+               
+        // return response()
+        //     ->header('HTTP 200 OK');
     }
 }

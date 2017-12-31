@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\User;
+use App\Parameters;
 
 class AdminController extends Controller
 {
@@ -121,5 +122,55 @@ class AdminController extends Controller
         $user->delete();
         $users = User::get();
         return view('backend.users', ["users" => $users]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function viewParameters($yan_money = "", $yan_secret = "")
+    {
+        $parameters = Parameters::all();
+$myecho = json_encode($parameters[0]);
+`echo "parameters: "  $myecho >> /tmp/qaz`;
+        if (isset($parameters[0])) {
+            $yan_money = $parameters[0]->parameter;
+            $yan_secret = $parameters[1]->parameter;
+        }
+        
+
+        return view('backend.parameters', ["yan_money" => $yan_money, "yan_secret" => $yan_secret]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeParameters(Request $request)
+    {
+        // if ($error->fails()) {
+        //     return redirect('bag_register_secure')
+        //                 ->withErrors($validator)
+        //                 ->withInput();
+        // }
+        
+            $this->validate($request, [
+                'yan_money' => 'required|numeric|max:999999999999999',
+                'yan_secret' => 'required|string|max:30',
+            ]);
+
+            Parameters::updateOrCreate(
+                ['title' => 'yan_money'],
+                ['parameter' => $request->yan_money]
+            );
+
+            Parameters::updateOrCreate(
+                ['title' => 'yan_secret'],
+                ['parameter' => $request->yan_secret]
+            );
+
+        return redirect()->route('dash_parametrs');
     }
 }

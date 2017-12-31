@@ -23,6 +23,35 @@
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+            <div class="alert alert-success" role="alert">Инвестиция {{$investor->name}} для Миллитарихолдинг</div>
+        </h4>
+      </div>
+      <div class="modal-body" >
+        <div class="alert alert-danger" role="alert"> 
+            <label class="alert-link">Инвестиция <b id="cur_am_tit">{{$invests[count($invests)-1]->amount}} руб.</b> будет считаться перечисленной</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Отменить</button>
+        <input type="submit" class="btn btn-success" form="id_form" value="Применить">
+        {{-- <a href="/dashboard/del_invest/id" id="del_invest" class="btn btn-danger">Перевести</a> --}}
+        {{-- <div class="alert alert-success" id="erralert{{ $subcat->id }}" role="alert" hidden=""></div> --}}
+      </div>
+    </div>
+    <form method="POST" hidden="true" id="id_form" action="{{ route('dash_sent_invest') }}">
+        {{ csrf_field() }}
+        <input type="hidden" name="label" class="cur_label" value="{{$invests[count($invests)-1]->label}}">
+        <input type="hidden" name="id_investor" value="{{$investor->id}}" data-type="number">      
+    </form>
+  </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -82,7 +111,10 @@
                                     <th>Сумма инвестиций {{$amount}}, руб</th>
                                     <th>Срок</th>
                                     <th>Дата внесения инвестиции</th>
-                                    <th>Применить</th>
+                                    <th>Перечисленная сумма, руб</th>
+                                    <th>Дата перечиления инвестиции, id</th>
+                                    <th>Номер инвестиции</th>
+                                    <th>Решение</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -93,6 +125,32 @@
                                         <td>{{$invest->amount}}</td>
                                         <td>{{$invest->term}}</td>
                                         <td>{{$invest->created_at}}</td>
+                                        <td>
+                                            @if ($invest->amount_type == 1)
+                                                {{$invest->amount_got}}
+                                            @elseif ($invest->amount_type == 0)
+                                                <button class="btn btn-info" type="button"  data-toggle="modal" data-target="#payModal" id="{{ $invest->id }}sent" curlabel="{{$invest->label}}" curamount="{{$invest->amount}}">Применить без перевода</button>
+                                            @elseif ($invest->amount_type == 2)
+                                                Админ оплатил
+                                            @elseif ($invest->amount_type == 3)
+                                                Переведено, ожидание зачисления
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($invest->time_got)
+                                                {{$invest->time_got}}<br>
+                                                {{$invest->operation_id}}
+                                            @else
+                                                -
+                                            @endif    
+                                        </td>
+                                        <td>
+                                            @if ($invest->label)
+                                                {{$invest->label}}
+                                            @else
+                                                -
+                                            @endif     
+                                        </td>
                                         <td>
                                             @php
                                                 $a_href0 = "href=/dashboard/update_solve/$invest->id/0";
@@ -143,6 +201,14 @@
         $('#del_invest').attr('href', '/dashboard/del_invest/' + id);
         $('#invest_amount').text( invest_amount );
       })
+
+      $('[id $= sent]').on('click', function () {
+        curlabel = $(this).attr('curlabel');
+        curamount = $(this).attr('curamount');
+        $('.cur_label').attr('value', curlabel);//
+        $('#cur_am_tit').text( curamount + ' руб.' );//
+        //$('#cur_am_inp').attr('value', curamount );
+      });
     </script>
 @endsection
 

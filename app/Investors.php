@@ -14,7 +14,7 @@ class Investors extends Authenticatable //Model
      * @var array
      */
     protected $fillable = [
-        'name', 'yan_money', 'phone', 'email', 'password',
+        'name', 'yan_money', 'phone', 'email', 'password', 'hash'
     ];
 
     /**

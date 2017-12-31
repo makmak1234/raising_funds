@@ -20,6 +20,7 @@ class CreateInvestorsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('password');
+            $table->string('hash', 40)->nullable();
             $table->timestamps();
         });
     }

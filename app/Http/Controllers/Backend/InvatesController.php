@@ -118,15 +118,20 @@ class InvatesController extends Controller
      */
     public function emailView($text_email)
     {
+        
+        $myecho = $_SERVER['SERVER_NAME'];
+        `echo " server:    " $myecho  >>/tmp/qaz`;
+
         $investors = Investors::select('name', 'email', 'phone', 'hash')->first();
         // $text_email = Text::where('type', 'text_email')->get();
         $text_send = $text_email;//$text_email[0]->order_text;
         $name = $investors->name;
         $email = $investors->email;
         $hash = $investors->hash;
+        $path_redirect = $_SERVER['SERVER_NAME'] . '/private/hash_investor/' . $hash;
         eval("\$text_send = \"$text_send\";");
 
-        return view('mail.emailAdmin',  ["name" => $text_send, "hash" => $hash]);
+        return view('mail.emailAdmin',  ["name" => $text_send, "hash" => $hash, "path_redirect" => $path_redirect]);
     }
     
 

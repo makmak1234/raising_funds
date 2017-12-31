@@ -17,7 +17,7 @@
     <center style="background-image: url({{ asset('storage/email/fone.jpg') }}); background-repeat: no-repeat; background-size: 400px auto; background-attachment: scroll; width: 400px; height: 800px;">
     	<div><h3>{{ $name }} <b>  </b><h3/><div>
         
-        <a href="http://raising.funds.home/private/hash_investor/{{$hash}}" target="_blank">Хочу инвестировать</a>
+        <a href="{{$path_redirect}}" target="_blank">Хочу инвестировать</a>
     </center>
 {{-- <div><h3> Номер заказа: {{ $order }} <b><font color='red'>  </font></b></h3><div>
 <div> Телефон:  <b> {{ $tel }} </b><div>

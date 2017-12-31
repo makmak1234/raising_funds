@@ -12,7 +12,7 @@ class Invest extends Model
 	 * @var array
 	 */
 	protected $fillable = [
-	    'amount', 'investors_id', 'term', 'accept',
+	    'amount', 'amount_got', 'amount_type', 'time_got', 'label', 'full_answer', 'investors_id', 'term', 'accept',
 	];
 
 	/**
