@@ -87,5 +87,7 @@
         $('#del_investor').attr('href', '/dashboard/del_investor/' + id);
         $('#investor_name').text( investor_name );
       })
+      $('#nav_bar_3').addClass('active'); 
     </script>
 @endsection
+

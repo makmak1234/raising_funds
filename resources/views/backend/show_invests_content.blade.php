@@ -209,6 +209,7 @@
         $('#cur_am_tit').text( curamount + ' руб.' );//
         //$('#cur_am_inp').attr('value', curamount );
       });
+      $('#nav_bar_3').addClass('active');
     </script>
 @endsection
 

@@ -122,4 +122,10 @@
 </div>
 @endsection
 
+@section('myjs')
+    <script type="text/javascript">
+        $('#nav_bar_3').addClass('active');
+    </script>
+@endsection
+
 

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                {{-- <div class="panel-heading">Панель управления</div> --}}
+                
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -13,10 +13,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <a href="{{route('dash_users')}}" class="btn btn-primary">Пользователи админпанели</a>
-                    <a href="{{ route('dash_investors') }}" class="btn btn-primary" role="button">Редактировать инвесторов</a> 
-                    <a href="{{ route('dash_invates') }}" class="btn btn-primary" role="button">Рассылка приглашений</a>  
-                    <a href="{{ route('dash_parametrs') }}" class="btn btn-primary" role="button">Настройка параметров</a>  
+                    <ul class="nav nav-pills">
+                        <li role="presentation" id="nav_bar_1"><a href="{{ url('/') }}">Главная страница</a></li>
+                        <li role="presentation" id="nav_bar_2"><a href="{{route('dash_users')}}">Пользователи админпанели</a></li>
+                        <li role="presentation" id="nav_bar_3"><a href="{{ route('dash_investors') }}">Редактировать инвесторов</a></li>
+                        <li role="presentation" id="nav_bar_4"><a href="{{route('dash_invates')}}">Рассылка приглашений</a></li>
+                        <li role="presentation" id="nav_bar_5"><a href="{{ route('dash_parametrs') }}">Настройка параметров</a></li> 
+                    </ul>
                 </div>
             </div>
         </div>

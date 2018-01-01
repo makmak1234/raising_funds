@@ -148,7 +148,10 @@
       function message(message){
         alert(message + " будут отправлены в течении нескольких минут");
       }
+      $('#nav_bar_4').addClass('active');
     </script>
 @endsection
+
+
 
 

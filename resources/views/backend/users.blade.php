@@ -84,24 +84,7 @@
         user_name = $(this).attr('user_name');
         $('#del_user').attr('href', '/dashboard/del_user/' + id);
         $('#user_name').text( user_name );
-
-        //alert('id= '+id);
-        // del_desc = $('#del_desc' + id).is(':checked');//.prop("checked");
-
-        // $.get('/del_user', {id:id}, function( data ) {
-        //   if(data.success == true){
-        //     $('#erralert' + id).removeAttr('hidden');
-        //     $('#erralert' + id).text(data.message);
-        //     $(location).attr('href', '/show_size');
-        //   }
-        //   else if(data.success == false){
-        //     //alert('count= '+ data.success);
-        //     document.getElementById('del_desc' + id).checked = false;
-        //     del_desc = $('#del_desc' + id).is(':checked');
-        //     $("[aria-label='drop_descr']").text(data.message);
-        //   }
-          
-        // }, 'json');
       })
+      $('#nav_bar_2').addClass('active');
     </script>
 @endsection

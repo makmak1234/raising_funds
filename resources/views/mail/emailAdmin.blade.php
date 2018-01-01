@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Привлечение инвестиций</title>
+    <title>Миллитарихолдинг</title>
 
     <!-- Styles -->
     {{-- <link href="{{ asset('css/emailAdmin.css') }}" rel="stylesheet"> --}}

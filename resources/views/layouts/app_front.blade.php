@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Raising_Funds</title>
+    <title>Миллитарихолдинг</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -31,6 +31,9 @@
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ route('priv_check_investor') }}">
                         Личный кабинет инвестора
+                    </a>
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        Главная страница
                     </a>
                 </div>
 

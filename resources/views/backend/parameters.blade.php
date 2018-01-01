@@ -5,9 +5,16 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Параметры</div>
+                <div class="panel-heading">Параметры яндекс</div>
 
                 <div class="panel-body">
+                    
+                    <div class="alert alert-info" role="alert">
+                        <div class="table-responsive">
+                            В <a link="https://money.yandex.ru/myservices/online.xml">https://money.yandex.ru/myservices/online.xml</a><br>
+                            вставить http://{ваш хост}/conf_trans
+                        </div>
+                    </div>
                     <form class="form-horizontal" method="POST" action="{{ route('dash_store_param') }}">
                         {{ csrf_field() }}
 
@@ -57,14 +64,17 @@
 </div>
 @endsection
 
-{{-- @section('myjs')
+@section('myjs')
     <script type="text/javascript">
-      $('#password').attr('value', "false1");
-      // $('#password').attr('value', "");
-
-      $(function(){
-          //2. Получить элемент, к которому необходимо добавить маску
-          $("#phone").mask("7(999) 999-9999");
-        });
+      $('[id $= deleteRecord]').on('click', function () {
+        id = $(this).attr('curid');
+        investor_name = $(this).attr('investor_name');
+        $('#del_investor').attr('href', '/dashboard/del_investor/' + id);
+        $('#investor_name').text( investor_name );
+      })
+      $('#nav_bar_5').addClass('active'); 
     </script>
-@endsection --}}
+@endsection
+
+
+
