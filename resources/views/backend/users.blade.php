@@ -13,7 +13,7 @@
       </div>
       <div class="modal-body" >
         <div class="alert alert-danger" role="alert">
-            Удалить пользователя 
+            Удалить пользователя
             <label class="alert-link" id="user_name">...</label> ?
         </div>
         {{-- Удалить пользователя <b id="user_name" class="btn-danger">...</b> ? --}}
@@ -39,7 +39,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     <a href="{{ url('/dashboard/register_user') }}" class="btn btn-primary">Добавить пользователя</a>
 
                 </div>
@@ -64,11 +64,11 @@
                                     <td>{{$user->phone}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->created_at}}</td>
-                                    <td><a href="update_user/{{ $user->id }}" class="btn btn-default" type="button">Редактировать</a></td>
-                                    <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $user->id }}deleteRecord" curid="{{ $user->id }}" user_name="{{$user->name}}">Удалить</button></td>
+                                    <td><a href="update_user/{{ $user->id }}" class="btn btn-default btn-sm" type="button">Редактировать</a></td>
+                                    <td><button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#myModal" id="{{ $user->id }}deleteRecord" curid="{{ $user->id }}" user_name="{{$user->name}}">Удалить</button></td>
                                 </tr>
                             @endforeach
-                        </tbody>   
+                        </tbody>
                     </table>
                 </div>
             </div>

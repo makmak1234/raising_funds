@@ -46,6 +46,7 @@ class BotEmailSms implements ShouldQueue
 // exit;
         $sms = new Transport();
         $investors = $investors->select('name', 'email', 'phone', 'hash')->get();//Investors::select('name', 'email', 'phone')->get();
+        
         if(isset($request['send_email']) && $request['send_email']){
             Text::updateOrCreate(
                 ['type' => 'text_email'],
@@ -70,8 +71,9 @@ class BotEmailSms implements ShouldQueue
             $name = $investor->name;
             $email = $investor->email;
             $hash = $investor->hash;
+            $path_redirect = $_SERVER['SERVER_NAME'] . '/private/hash_investor/' . $hash;
             eval("\$text_send = \"$text_send\";");
-            $ok = Mail::to($email)->send(new OrderShipped($text_send, $hash));
+            $ok = Mail::to($email)->send(new OrderShipped($text_send, $hash, $path_redirect));
             // sleep(5);
 
 // $myecho = json_encode($ok);
@@ -86,6 +88,8 @@ class BotEmailSms implements ShouldQueue
             $text_send = $text_sms;
             $name = $investor->name;
             $phone = $investor->phone;
+            $path_redirect = $_SERVER['SERVER_NAME'] . '/private/hash_investor/' . $hash;
+            $text_send .= $path_redirect;
             eval("\$text_send = \"$text_send\";");
             $ok = $sms->send(array("text" => $text_send), array(substr($phone, 1)));
             // sleep(5);

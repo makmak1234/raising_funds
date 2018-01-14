@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body" >
         <div class="alert alert-danger" role="alert">
-            Удалить инвестора 
+            Удалить инвестора
             <label class="alert-link" id="investor_name">...</label> ?
         </div>
         {{-- Удалить инвестора <b id="investor_name" class="btn-danger">...</b> ? --}}
@@ -37,7 +37,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
                     <a href="{{ url('/dashboard/register_investor') }}" class="btn btn-primary">Добавить инвестора</a>
 
                 </div>
@@ -66,11 +66,11 @@
                                     <td>{{$investor->created_at}}</td>
                                     <td><a href="show_invests/{{ $investor->id }}">{{$amount_count[$loop->index]}}</a></td>
                                     <td>{{$amount_all[$loop->index]}}</td>
-                                    <td><a href="update_investor/{{ $investor->id }}" class="btn btn-default" type="button">Редактировать</a></td>
-                                    <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $investor->id }}deleteRecord" curid="{{ $investor->id }}" investor_name="{{$investor->name}}">Удалить</button></td>
+                                    <td><a href="update_investor/{{ $investor->id }}" class="btn btn-default btn-sm" type="button">Редактировать</a></td>
+                                    <td><button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#myModal" id="{{ $investor->id }}deleteRecord" curid="{{ $investor->id }}" investor_name="{{$investor->name}}">Удалить</button></td>
                                 </tr>
                             @endforeach
-                        </tbody>   
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -87,7 +87,6 @@
         $('#del_investor').attr('href', '/dashboard/del_investor/' + id);
         $('#investor_name').text( investor_name );
       })
-      $('#nav_bar_3').addClass('active'); 
+      $('#nav_bar_3').addClass('active');
     </script>
 @endsection
-

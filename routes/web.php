@@ -19,12 +19,14 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('del_user/{id}', 'Backend\AdminController@deleteUser')->name('dash_del_user');
 		Route::post('store_user', 'Backend\AdminController@storeUser')->name('dash_store_user');
 		Route::get('register_user', function () { return view('backend.register_user'); })->name('dash_reg_user');
-		Route::get('parameters', 'Backend\AdminController@viewParameters')->name('dash_parametrs');
+		Route::get('parameters', function () { return view('backend.parameters'); })->name('dash_parametrs');
 		Route::post('store/parameters', 'Backend\AdminController@storeParameters')->name('dash_store_param');
+		Route::get('parameters/yandex', 'Backend\AdminController@viewParamYandex')->name('dash_param_yan');
+		Route::get('parameters/qiwi', 'Backend\AdminController@viewParamQiwi')->name('dash_param_qiwi');
 
 		Route::get('investors', 'Backend\InvestController@investors')->name('dash_investors');
 		Route::get('update_investor/{id}', 'Backend\InvestController@updateInvestor')->name('dash_update_investor');
-		Route::get('del_investor/{id}', 'Backend\InvestController@deleteInvestor')->name('dash_del_investor');	
+		Route::get('del_investor/{id}', 'Backend\InvestController@deleteInvestor')->name('dash_del_investor');
 		Route::get('register_investor', function () { return view('backend.register_investor'); })->name('dash_reg_investor');
 
 		Route::get('show_invests/{id}', 'Backend\InvestController@showInvest')->name('dash_show_invests');
@@ -41,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 			Route::get('view/email/{text_email}', 'Backend\InvatesController@emailView')->name('dash_email_view');
 		});
 	});
-	
+
 });
 
 Route::group(['middleware' => ['auth_or_frontend']], function () {
@@ -53,7 +55,7 @@ Route::group(['middleware' => ['auth_or_frontend']], function () {
 Route::group(['middleware' => ['frontend']], function () {
 	Route::group(['prefix' => 'private'], function () {
 		Route::post('logout', 'Frontend\InvestorsController@privateLogout')->name('priv_logout');
-		
+
 		Route::get('show_invests/{id}/{id_form?}', 'Frontend\InvestorsController@showInvest')->name('front_show_investor');
 		Route::get('add_invest/{id}', 'Frontend\InvestorsController@addInvest')->name('priv_add_invest');
 	});

@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Requests;
@@ -51,14 +51,16 @@ class InvestorsController extends Controller
 
         if (Auth::guard('investors')->check() || Auth::guard('investors')->attempt(["phone" => $request->phone, "password" => $request->password])) {
             $investor = Auth::guard('investors')->user();
-            
+
             $yan_money = Parameters::where('title', 'yan_money')->get();
+            $qiwi_wallet = Parameters::where('title', 'qiwi_wallet')->get();
+            $qiwi_wallet = $qiwi_wallet[0]->parameter;
 
             $invests = $investor->invests;
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money]);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet]);
             // return redirect()->route('front_show_investor', ["id" => $investor->id]);
         }
         else{
@@ -80,10 +82,12 @@ class InvestorsController extends Controller
             Auth::guard('investors')->login($investor);
             $invests = $investor->invests;
             $yan_money = Parameters::where('title', 'yan_money')->get();
+            $qiwi_wallet = Parameters::where('title', 'qiwi_wallet')->get();
+            $qiwi_wallet = $qiwi_wallet[0]->parameter;
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money]);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet]);
         }
         else{
             // $message = "Телефон или пароль неверен";
@@ -104,17 +108,19 @@ class InvestorsController extends Controller
 
         if ($id != $investor_check->id) {
             return redirect()->route("priv_auth_investor");
-        }        
+        }
 
         // Auth::guard('investors')->login($investor);
 
         $invests = $investor->invests;
 
         $yan_money = Parameters::where('title', 'yan_money')->get();
+        $qiwi_wallet = Parameters::where('title', 'qiwi_wallet')->get();
+        $qiwi_wallet = $qiwi_wallet[0]->parameter;
 
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form, 'yan_money' => $yan_money]);
+        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form, 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet]);
     }
 
     /**
@@ -129,8 +135,8 @@ class InvestorsController extends Controller
 
         if ($id != $investor_check->id) {
             return redirect()->route("priv_auth_investor");
-        } 
-               
+        }
+
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
         $date_now = Carbon::tomorrow()->toDateString();
 
@@ -145,7 +151,7 @@ class InvestorsController extends Controller
 
     //     if ($id != $investor_check->id) {
     //         return redirect()->route("priv_auth_investor");
-    //     }        
+    //     }
 
     //     $invests = $investor->invests;
 
@@ -153,7 +159,7 @@ class InvestorsController extends Controller
     //         ->where('id', $id_invest)
     //         ->update([
     //             'amount_type' => '3',
-    //         ]); 
+    //         ]);
 
     //     $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 

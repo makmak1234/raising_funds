@@ -11,10 +11,11 @@
       </div>
       <div class="modal-body" >
         <div class="alert alert-success" role="alert">
-             
+
             <label class="alert-link" id="invest_text">Сейчас или позже можно перевести деньги на счет Миллитарихолдинг</label>
-            <label><input type="radio" form="id_form" name="paymentType" value="PC">Яндекс.Деньгами</label>
-            <label><input type="radio" form="id_form" name="paymentType" value="AC">Банковской картой</label>
+            <label hidden><input type="radio" disabled form="id_form" name="paymentType" value="PC">Яндекс.Деньгами</label>
+            <label hidden><input type="radio" disabled form="id_form" name="paymentType" value="AC">Банковской картой на Яндекс</label>
+            <label><input type="radio" checked form="id_form" name="paymentType" value="Qiwi">На Qiwi любым способом</label>
             <label class="hidden alert alert-warning" id="f_choose">Сделайте выбор</label>
         </div>
       </div>
@@ -38,8 +39,9 @@
         <input type="hidden" name="need-email" value="false">
         <input type="hidden" name="need-phone" value="false">
         <input type="hidden" name="need-address" value="false">
-        <input type="hidden" name="successURL" value="{{$_SERVER['SERVER_NAME']}}/private/show_invests/{{$investor->id}}">       
+        <input type="hidden" name="successURL" value="{{$_SERVER['SERVER_NAME']}}/private/show_invests/{{$investor->id}}">
     </form>
+    <input type="hidden" name="qiwi_wallet" value="{{ $qiwi_wallet }}">
   </div>
 </div>
 {{-- <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $investor->id }}deleteRecord" curid="{{ $investor->id }}" investor_name="{{$investor->name}}">Удалить</button> --}}
@@ -115,7 +117,7 @@
                                         <td>{{$investor->email}}</td>
                                         <td>{{$investor->created_at}}</td>
                                     </tr>
-                                </tbody>   
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -128,7 +130,7 @@
                                     <th>Сумма инвестиции, руб</th>
                                     <th>Срок</th>
                                     <th>Дата внесения инвестиции</th>
-                                    <th>Перечисленная сумма, руб</th>
+                                    <th>Перечисленная сумма (для Яндекс), руб</th>
                                     <th>Дата перечиления инвестиции, id</th>
                                     <th>Номер инвестиции</th>
                                     <th>Решение</th>
@@ -144,9 +146,9 @@
                                             @if ($invest->amount_type == 1)
                                                 {{$invest->amount_got}}
                                             @elseif ($invest->amount_type == 0)
-                                                <button class="btn btn-info" type="button"  data-toggle="modal" data-target="#myModal" id="{{ $invest->id }}sent" curlabel="{{$invest->label}}" curamount="{{$invest->amount}}">Перевести</button>
+                                                <button class="btn btn-info btn-sm" type="button"  data-toggle="modal" data-target="#myModal" id="{{ $invest->id }}sent" curlabel="{{$invest->label}}" curamount="{{$invest->amount}}">Перевести</button>
                                             @elseif ($invest->amount_type == 2)
-                                                Админ оплатил
+                                                Админ зачислил
                                             @elseif ($invest->amount_type == 3)
                                                 Переведено, ожидание зачисления
                                             @endif
@@ -157,14 +159,14 @@
                                                 {{$invest->operation_id}}
                                             @else
                                                 -
-                                            @endif 
+                                            @endif
                                         </td>
                                         <td>
                                             @if ($invest->label)
                                                 {{$invest->label}}
                                             @else
                                                 -
-                                            @endif    
+                                            @endif
                                         </td>
                                         <td>
                                             @php
@@ -183,13 +185,13 @@
                                                 }
                                             @endphp
                                             <!-- Single button -->
-                                            <div class="alert {{$inf_cls}}" role="alert">{{$accept[$invest->accept]}}</div>
+                                            <div class="alert {{$inf_cls}} btn-sm" role="alert">{{$accept[$invest->accept]}}</div>
                                             </div>
                                         </td>
-                                        
+
                                     </tr>
                                 @endforeach
-                            </tbody>   
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -199,7 +201,7 @@
 
     {{-- <iframe src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=%D0%98%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%B8%D1%86%D0%B8%D0%B8%20%D0%B2%20%D0%9C%D0%B8%D0%BB%D0%BB%D0%B8%D1%82%D0%B0%D1%80%D0%B8%D1%85%D0%BE%D0%BB%D0%B4%D0%B8%D0%BD%D0%B3&targets-hint=&default-sum=&button-text=11&payment-type-choice=on&hint=&successURL=&quickpay=shop&account=410015706940882" width="450" height="223" frameborder="0" allowtransparency="true" scrolling="no"></iframe> --}}
 
-    
+
     {{-- <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
         <div class="quickpay-constructor-preview__widget quickpay-constructor-preview__widget_type_shop"><div class="widget-shop i-bem widget-shop_js_inited" data-bem="{&quot;widget-shop&quot;:{}}" data-content-block="this"><div class="data-unit widget-shop__data-unit"><div class="data-unit__label"><label class="label2 label2_size_s">Назначение перевода</label></div><div class="data-unit__base"><span class="label2 label2_size_s widget-shop__targets-seller"></span>
         <label class="label2 label2_size_m">Инвестиции для Миллитарихолдинг</label>
@@ -254,9 +256,22 @@
                 $('#f_choose').removeClass('show');
                 $('#f_choose').addClass('hidden');
                 $('#myModal').modal('hide');
-                form.submit();
+                // form.submit();
             }
+            radio = $("input[name='paymentType']:checked").attr('value');
+            qiwi_wallet = $("input[name='qiwi_wallet']").attr('value');
+            if (radio == "Qiwi") {
+              url = "https://qiwi.com/payment/form/99?extra%5B%27account%27%5D=" + qiwi_wallet + "&amountInteger=" + form.sum.value + "&extra%5B%27comment%27%5D=&currency=643";
+              // $(location).attr('href',url);
+              window.open(url,'_blank');
+            }else if (radio == "PC" || radio == "AC") {
+              form.submit();
+            }
+            // alert(radio);
+            // form.submit();
         }
+
+        //
     </script>
     {{-- <script src="{{ asset('js/_payment_lib.js') }}"></script> --}}
 @endsection

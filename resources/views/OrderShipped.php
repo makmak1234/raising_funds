@@ -18,9 +18,15 @@ class OrderShipped extends Mailable
      */
     
     protected $name;
+    protected $order;
+    protected $tel;
+    protected $email;
+    protected $city;
+    protected $pricegoods;
+    protected $priceall;
+    protected $comment;
     protected $hash;
-    protected $path_redirect;
-    
+
     /**
      * Create a new message instance.
      *

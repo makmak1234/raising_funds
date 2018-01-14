@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body" >
         <div class="alert alert-danger" role="alert">
-            Удалить инвестицию 
+            Удалить инвестицию
             <label class="alert-link" id="invest_amount">...</label> руб.?
         </div>
       </div>
@@ -34,7 +34,7 @@
         </h4>
       </div>
       <div class="modal-body" >
-        <div class="alert alert-danger" role="alert"> 
+        <div class="alert alert-danger" role="alert">
             <label class="alert-link">Инвестиция <b id="cur_am_tit">{{$invests[count($invests)-1]->amount}} руб.</b> будет считаться перечисленной</label>
         </div>
       </div>
@@ -48,7 +48,7 @@
     <form method="POST" hidden="true" id="id_form" action="{{ route('dash_sent_invest') }}">
         {{ csrf_field() }}
         <input type="hidden" name="label" class="cur_label" value="{{$invests[count($invests)-1]->label}}">
-        <input type="hidden" name="id_investor" value="{{$investor->id}}" data-type="number">      
+        <input type="hidden" name="id_investor" value="{{$investor->id}}" data-type="number">
     </form>
   </div>
 </div>
@@ -77,7 +77,7 @@
                     {{-- <div class="panel-body">
                         <p>...</p>
                     </div> --}}
-                    
+
                     <div class="panel-body bg-info">
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -98,7 +98,7 @@
                                         <td>{{$investor->email}}</td>
                                         <td>{{$investor->created_at}}</td>
                                     </tr>
-                                </tbody>   
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
                                     <th>Сумма инвестиций {{$amount}}, руб</th>
                                     <th>Срок</th>
                                     <th>Дата внесения инвестиции</th>
-                                    <th>Перечисленная сумма, руб</th>
+                                    <th>Перечисленная сумма (для Яндекс), руб</th>
                                     <th>Дата перечиления инвестиции, id</th>
                                     <th>Номер инвестиции</th>
                                     <th>Решение</th>
@@ -129,9 +129,9 @@
                                             @if ($invest->amount_type == 1)
                                                 {{$invest->amount_got}}
                                             @elseif ($invest->amount_type == 0)
-                                                <button class="btn btn-info" type="button"  data-toggle="modal" data-target="#payModal" id="{{ $invest->id }}sent" curlabel="{{$invest->label}}" curamount="{{$invest->amount}}">Применить без перевода</button>
+                                                <button class="btn btn-info btn-sm" type="button"  data-toggle="modal" data-target="#payModal" id="{{ $invest->id }}sent" curlabel="{{$invest->label}}" curamount="{{$invest->amount}}">Применить вручную</button>
                                             @elseif ($invest->amount_type == 2)
-                                                Админ оплатил
+                                                Админ зачислил
                                             @elseif ($invest->amount_type == 3)
                                                 Переведено, ожидание зачисления
                                             @endif
@@ -142,14 +142,14 @@
                                                 {{$invest->operation_id}}
                                             @else
                                                 -
-                                            @endif    
+                                            @endif
                                         </td>
                                         <td>
                                             @if ($invest->label)
                                                 {{$invest->label}}
                                             @else
                                                 -
-                                            @endif     
+                                            @endif
                                         </td>
                                         <td>
                                             @php
@@ -169,7 +169,7 @@
                                             @endphp
                                             <!-- Single button -->
                                             <div class="btn-group">
-                                              <button type="button" class="btn {{$inf_cls}} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <button type="button" class="btn {{$inf_cls}} dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 {{$accept[$invest->accept]}} <span class="caret"></span>
                                               </button>
                                               <ul class="dropdown-menu">
@@ -179,11 +179,11 @@
                                               </ul>
                                             </div>
                                         </td>
-                                        <td><a href="/dashboard/update_invest/{{ $invest->id }}" class="btn btn-default" type="button">Редактировать</a></td>
-                                        <td><button class="btn btn-danger" type="button" data-toggle="modal" data-target="#myModal" id="{{ $invest->id }}deleteRecord" curid="{{ $invest->id }}" invest_amount="{{$invest->amount}}">Удалить</button></td>
+                                        <td><a href="/dashboard/update_invest/{{ $invest->id }}" class="btn btn-default btn-sm" type="button">Редактировать</a></td>
+                                        <td><button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#myModal" id="{{ $invest->id }}deleteRecord" curid="{{ $invest->id }}" invest_amount="{{$invest->amount}}">Удалить</button></td>
                                     </tr>
                                 @endforeach
-                            </tbody>   
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -212,5 +212,3 @@
       $('#nav_bar_3').addClass('active');
     </script>
 @endsection
-
-
