@@ -57,10 +57,13 @@ class InvestorsController extends Controller
             $qiwi_wallet = $qiwi_wallet[0]->parameter;
 
             $invests = $investor->invests;
-
+            $end_amount = count($invests)>0 ? $invests[count($invests)-1]->amount : '';
+            $end_label = count($invests)>0 ? $invests[count($invests)-1]->label : '';
+//             $myecho = json_encode($invests);
+//             `echo " invests: $myecho    " >>/tmp/qaz`;
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet]);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet, 'end_amount' => $end_amount, 'end_label' => $end_label]);
             // return redirect()->route('front_show_investor', ["id" => $investor->id]);
         }
         else{
@@ -81,13 +84,15 @@ class InvestorsController extends Controller
             $investor = $investor[0];
             Auth::guard('investors')->login($investor);
             $invests = $investor->invests;
+            $end_amount = count($invests)>0 ? $invests[count($invests)-1]->amount : '';
+            $end_label = count($invests)>0 ? $invests[count($invests)-1]->label : '';
             $yan_money = Parameters::where('title', 'yan_money')->get();
             $qiwi_wallet = Parameters::where('title', 'qiwi_wallet')->get();
             $qiwi_wallet = $qiwi_wallet[0]->parameter;
 
             $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet]);
+            return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => 'false', 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet, 'end_amount' => $end_amount, 'end_label' => $end_label]);
         }
         else{
             // $message = "Телефон или пароль неверен";
@@ -113,6 +118,8 @@ class InvestorsController extends Controller
         // Auth::guard('investors')->login($investor);
 
         $invests = $investor->invests;
+        $end_amount = count($invests)>0 ? $invests[count($invests)-1]->amount : '';
+        $end_label = count($invests)>0 ? $invests[count($invests)-1]->label : '';
 
         $yan_money = Parameters::where('title', 'yan_money')->get();
         $qiwi_wallet = Parameters::where('title', 'qiwi_wallet')->get();
@@ -120,7 +127,7 @@ class InvestorsController extends Controller
 
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form, 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet]);
+        return view('frontend.investor', ["investor" => $investor, "invests" => $invests, "accept" => $accept, 'id_form' => $id_form, 'yan_money' => $yan_money, 'qiwi_wallet' => $qiwi_wallet, 'end_amount' => $end_amount, 'end_label' => $end_label]);
     }
 
     /**

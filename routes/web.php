@@ -48,9 +48,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::group(['middleware' => ['auth_or_frontend']], function () {
 	Route::post('dashboard/store_invest', 'Backend\InvestController@storeInvest')->name('dash_store_invest');
-	Route::post('dashboard/store_investor', 'Backend\InvestController@storeInvestor')->name('dash_store_investor');
-	Route::get('/private/register_investor', function () { return view('frontend.register_investor'); })->name('priv_reg_investor');
+	
+	
 });
+Route::get('/private/register_investor', function () { return view('frontend.register_investor'); })->name('priv_reg_investor');
+Route::post('dashboard/store_investor', 'Backend\InvestController@storeInvestor')->name('dash_store_investor');
 
 Route::group(['middleware' => ['frontend']], function () {
 	Route::group(['prefix' => 'private'], function () {

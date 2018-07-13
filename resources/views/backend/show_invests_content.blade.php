@@ -35,7 +35,8 @@
       </div>
       <div class="modal-body" >
         <div class="alert alert-danger" role="alert">
-            <label class="alert-link">Инвестиция <b id="cur_am_tit">{{$invests[count($invests)-1]->amount}} руб.</b> будет считаться перечисленной</label>
+            <label class="alert-link">Инвестиция <b id="cur_am_tit">{{$end_amount}} руб.</b> будет считаться перечисленной</label>
+{{--            {{$invests[count($invests)-1]->amount}}--}}
         </div>
       </div>
       <div class="modal-footer">
@@ -47,7 +48,7 @@
     </div>
     <form method="POST" hidden="true" id="id_form" action="{{ route('dash_sent_invest') }}">
         {{ csrf_field() }}
-        <input type="hidden" name="label" class="cur_label" value="{{$invests[count($invests)-1]->label}}">
+        <input type="hidden" name="label" class="cur_label" value="{{$end_label}}">
         <input type="hidden" name="id_investor" value="{{$investor->id}}" data-type="number">
     </form>
   </div>

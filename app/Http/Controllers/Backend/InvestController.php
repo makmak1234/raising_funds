@@ -174,6 +174,8 @@ class InvestController extends Controller
         $investor = Investors::find($id);
 
         $invests = $investor->invests;
+        $end_amount = count($invests)>0 ? $invests[count($invests)-1]->amount : '';
+        $end_label = count($invests)>0 ? $invests[count($invests)-1]->label : '';
 
         $amount = 0;
         foreach ($invests as $invest) {
@@ -182,7 +184,7 @@ class InvestController extends Controller
 
         $accept=['0' => 'Отказано', '1' => 'Принято', '2' => 'Решается'];
 
-        return view('backend.show_invests', ["investor" => $investor, "invests" => $invests, "accept" => $accept, "amount" => $amount]);
+        return view('backend.show_invests', ["investor" => $investor, "invests" => $invests, "accept" => $accept, "amount" => $amount, 'end_amount' => $end_amount, 'end_label' => $end_label]);
     }
 
     /**

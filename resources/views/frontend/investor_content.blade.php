@@ -6,7 +6,8 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">
-            <div class="alert alert-info" role="alert">{{$investor->name}} <b id="cur_am_tit2">инвестиция для Миллитарихолдинг в размере <b>{{$invests[count($invests)-1]->amount}} руб.</b> зарегистрирована</b></div>
+            <div class="alert alert-info" role="alert">{{$investor->name}} <b id="cur_am_tit2">инвестиция для Миллитарихолдинг в размере <b>{{$end_amount}} руб.</b> зарегистрирована</b></div>
+{{--            [count($invests)-1]--}}
         </h4>
       </div>
       <div class="modal-body" >
@@ -30,10 +31,10 @@
         <input type="hidden" name="receiver" value="{{ $yan_money[0]->parameter }}">{{-- 410015706940882 --}}
         <input type="hidden" name="formcomment" value="Миллитарихолдинг">
         <input type="hidden" name="short-dest" value="Инвестиции для Миллитарихолдинг">
-        <input type="hidden" name="label" class="cur_label" value="{{$invests[count($invests)-1]->label}}">
+        <input type="hidden" name="label" class="cur_label" value="{{$end_label}}">
         <input type="hidden" name="quickpay-form" value="donate">
-        <input type="hidden" name="targets" class="cur_label" value="транзакция {{$invests[count($invests)-1]->label}}">
-        <input type="hidden" name="sum" id="cur_am_inp" value="{{$invests[count($invests)-1]->amount}}" data-type="number">
+        <input type="hidden" name="targets" class="cur_label" value="транзакция {{$end_label}}">
+        <input type="hidden" name="sum" id="cur_am_inp" value="{{$end_amount}}" data-type="number">
         <input type="hidden" name="comment" value="Инвестиции для Миллитарихолдинг">
         <input type="hidden" name="need-fio" value="false">
         <input type="hidden" name="need-email" value="false">
